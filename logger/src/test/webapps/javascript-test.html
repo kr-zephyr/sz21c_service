@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+</head>
+<body>
+    <input type="button" id="sendLogBtn" value="로그 보내기"/>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var clientIp;
+            $.getJSON("http://jsonip.com/?callback=?", function (data) {
+                clientIp = data.ip;
+            });
+            $.ajax({
+                type : 'POST',
+                url : 'http://localhost:8080/logger/test',
+                async : true,
+                data : {clientIp : clientIp}
+            });
+        });
+    </script>
+</body>
+</html>
