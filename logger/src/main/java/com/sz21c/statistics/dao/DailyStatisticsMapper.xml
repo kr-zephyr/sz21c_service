@@ -17,10 +17,18 @@
         <result column="CNT" property="count"/>
     </resultMap>
     <select id="selectDailyTopTenHitPost" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultMap="dailyTopTenHitPostMap">
-        SELECT A.URL_TITLE, A.CNT FROM
-        (SELECT URL_TITLE, COUNT(*) AS CNT FROM LGG_MST_LOGRAWDATA
-        WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
-        GROUP BY URL_TITLE) A
+        SELECT
+            A.URL_TITLE, A.CNT
+        FROM
+        (
+            SELECT
+                URL_TITLE, COUNT(*) AS CNT
+            FROM (
+                SELECT DISTINCT URL_TITLE, REFERRER_IP FROM LGG_MST_LOGRAWDATA
+                WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
+            ) A
+            GROUP BY URL_TITLE
+        ) A
         ORDER BY A.CNT DESC
         LIMIT 10
     </select>
