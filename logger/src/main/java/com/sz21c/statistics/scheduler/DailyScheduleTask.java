@@ -1,7 +1,7 @@
 package com.sz21c.statistics.scheduler;
 
 import com.sz21c.slacksender.SlackSender;
-import com.sz21c.statistics.model.DailyTopTenHitPostDto;
+import com.sz21c.statistics.model.TopTenHitPostDto;
 import com.sz21c.statistics.service.DailyScheduleService;
 import com.sz21c.util.DateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class DailyScheduleTask {
     public void sendReportToSlack() throws Exception {
         log.info("[일간 레포트 작성 시작]");
 
-        List<DailyTopTenHitPostDto> topTenHitPostList = dailyScheduleService.getTopTenHitPost();
+        List<TopTenHitPostDto> topTenHitPostList = dailyScheduleService.getDailyTopTenHitPost();
 
         StringBuffer sb = new StringBuffer();
         sb.append(DateTimeUtil.getYestdayForKorean() + " 블로그 접속 현황\n");
@@ -48,7 +48,7 @@ public class DailyScheduleTask {
         sb.append("어제 hit 수 높은 post Top 10\n");
 
         AtomicInteger idx = new AtomicInteger();
-        topTenHitPostList.forEach((DailyTopTenHitPostDto data)
+        topTenHitPostList.forEach((TopTenHitPostDto data)
             -> sb.append((idx.incrementAndGet() + 1) + ". [" + data.getCount() + "] " + data.getUrlTitle() + "\n"));
 
         log.info(sb.toString());

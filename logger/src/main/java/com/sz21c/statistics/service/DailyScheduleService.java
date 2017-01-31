@@ -1,7 +1,7 @@
 package com.sz21c.statistics.service;
 
-import com.sz21c.statistics.dao.DailyStatisticsDao;
-import com.sz21c.statistics.model.DailyTopTenHitPostDto;
+import com.sz21c.statistics.dao.StatisticsDao;
+import com.sz21c.statistics.model.TopTenHitPostDto;
 import com.sz21c.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,23 +12,23 @@ import java.util.List;
 public class DailyScheduleService {
 
     @Autowired
-    DailyStatisticsDao dailyStatisticsDao;
+    StatisticsDao dailyStatisticsDao;
 
     public int getDailyHitTotalCount() throws Exception {
-        return dailyStatisticsDao.selectDailyHitTotalCount(
-            DateTimeUtil.getDateForMidnightToday()
-            , DateTimeUtil.getDateForMidnightYesterday());
+        return dailyStatisticsDao.selectHitTotalCount(
+            DateTimeUtil.getDateForMidnightYesterday()
+            , DateTimeUtil.getDateForMidnightToday());
     }
 
     public int getDailyVisitorCount() throws Exception {
-        return dailyStatisticsDao.selectDailyVisitorCount(
-            DateTimeUtil.getDateForMidnightToday()
-            , DateTimeUtil.getDateForMidnightYesterday());
+        return dailyStatisticsDao.selectVisitorCount(
+            DateTimeUtil.getDateForMidnightYesterday()
+            , DateTimeUtil.getDateForMidnightToday());
     }
 
-    public List<DailyTopTenHitPostDto> getTopTenHitPost() throws Exception {
-        return dailyStatisticsDao.selectDailyTopTenHitPost(
-            DateTimeUtil.getDateForMidnightToday()
-            , DateTimeUtil.getDateForMidnightYesterday());
+    public List<TopTenHitPostDto> getDailyTopTenHitPost() throws Exception {
+        return dailyStatisticsDao.selectTopTenHitPost(
+            DateTimeUtil.getDateForMidnightYesterday()
+            , DateTimeUtil.getDateForMidnightToday());
     }
 }

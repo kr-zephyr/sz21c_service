@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sz21c.statistics.dao.DailyStatisticsDao">
+<mapper namespace="com.sz21c.statistics.dao.StatisticsDao">
 
-    <select id="selectDailyHitTotalCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
+    <select id="selectHitTotalCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
         SELECT COUNT(*) FROM LGG_MST_LOGRAWDATA
         WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime};
     </select>
 
-    <select id="selectDailyVisitorCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
+    <select id="selectVisitorCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
         SELECT COUNT(DISTINCT REFERRER_IP) FROM LGG_MST_LOGRAWDATA
         WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime};
     </select>
 
-    <resultMap id="dailyTopTenHitPostMap" type="com.sz21c.statistics.model.DailyTopTenHitPostDto">
+    <resultMap id="topTenHitPostMap" type="com.sz21c.statistics.model.TopTenHitPostDto">
         <result column="URL_TITLE" property="urlTitle"/>
         <result column="CNT" property="count"/>
     </resultMap>
-    <select id="selectDailyTopTenHitPost" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultMap="dailyTopTenHitPostMap">
+    <select id="selectTopTenHitPost" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultMap="topTenHitPostMap">
         SELECT
             A.URL_TITLE, A.CNT
         FROM
