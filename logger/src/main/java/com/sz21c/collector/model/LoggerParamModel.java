@@ -26,7 +26,13 @@ public class LoggerParamModel {
         mstLogRawDataDto.setReferrerIp(this.clientIp);
         mstLogRawDataDto.setReferrerUrl(this.referrerUrl);
         mstLogRawDataDto.setType(this.logType);
+
         mstLogRawDataDto.setUrlTitle(this.urlTitle);
+        if(this.urlTitle == null || "".equals(this.urlTitle)) {
+            if("https://kr-zephyr.github.io/".equals(this.url)) {
+                mstLogRawDataDto.setUrlTitle("devops root");
+            }
+        }
 
         String calledUrl = mstLogRawDataDto.getUrl();
         try {
