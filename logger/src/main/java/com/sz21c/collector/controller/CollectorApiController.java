@@ -72,15 +72,15 @@ public class CollectorApiController {
         }
     }
 
-    @GetMapping(value = "/c-session/{auth}")
+    @GetMapping(value = "/{auth}")
     public void createSession(HttpServletResponse response, @PathVariable String auth) throws Exception {
-        if(authValue.equals(auth)) {
+        if(authValue.equals(auth.replace("c-session-", ""))) {
             Cookie cookie = new Cookie("excepted-log-value", authValue);
             cookie.setDomain("sz21c.com");
             cookie.setMaxAge(60 * 60 * 24 * 365 * 10);  //10년으로 셋팅
             response.addCookie(cookie);
 
-            log.debug("cookie!!!");
+            log.info("set cookie!!!");
         }
     }
 }
