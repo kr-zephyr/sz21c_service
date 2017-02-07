@@ -92,24 +92,27 @@ public class RootApplicationConfig {
     @Value("${logger.server.ssl.keyAlias}")
     String keystoreAlias;
 
+    @Value("${logger.profile}")
+    String profile;
+
     @Bean
     public EmbeddedServletContainerFactory servletContainer() {
-
-        final String keystoreProvider = "SunJSSE";
-
         TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
-        factory.addConnectorCustomizers((TomcatConnectorCustomizer) (Connector con) -> {
-            con.setScheme("https");
-            con.setSecure(true);
-            Http11NioProtocol proto = (Http11NioProtocol) con.getProtocolHandler();
-            proto.setSSLEnabled(true);
-            proto.setKeystoreFile(keystoreFile);
-            proto.setKeystorePass(keystorePass);
-            proto.setKeystoreType(keystoreType);
-            proto.setProperty("keystoreProvider", keystoreProvider);
-            proto.setKeyAlias(keystoreAlias);
-        });
 
+        if("real".equals(profile)) {
+            final String keystoreProvider = "SunJSSE";
+            factory.addConnectorCustomizers((TomcatConnectorCustomizer) (Connector con) -> {
+                con.setScheme("https");
+                con.setSecure(true);
+                Http11NioProtocol proto = (Http11NioProtocol) con.getProtocolHandler();
+                proto.setSSLEnabled(true);
+                proto.setKeystoreFile(keystoreFile);
+                proto.setKeystorePass(keystorePass);
+                proto.setKeystoreType(keystoreType);
+                proto.setProperty("keystoreProvider", keystoreProvider);
+                proto.setKeyAlias(keystoreAlias);
+            });
+        }
 
         return factory;
     }
