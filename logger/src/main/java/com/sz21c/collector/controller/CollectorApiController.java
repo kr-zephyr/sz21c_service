@@ -6,21 +6,29 @@ import com.sz21c.collector.service.CollectorService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @Slf4j
 @RestController
 public class CollectorApiController {
+
+    @Value("${logger.authorization.value}")
+    String authValue;
 
     @Autowired
     CollectorService collectorService;
 
     @PostMapping(value = "/logger/put", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void putLog(
-            HttpServletRequest request, @RequestBody LoggerParamModel model)
+            HttpServletRequest request
+        , @RequestBody LoggerParamModel model)
     throws Exception {
         model.setLocale(request.getLocale().toString());
         model.setLogType(LogTypeEnum.ONLOAD.toString());
@@ -38,7 +46,9 @@ public class CollectorApiController {
             log.debug("model :: " + model.toString());
         }
 
-        collectorService.addLog(model);
+        if(!authValue.equals(model.getLoggerExcepted())) {
+            collectorService.addLog(model);
+        }
     }
 
     @PostMapping(value = "/logger/put/test", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -59,6 +69,18 @@ public class CollectorApiController {
 
         if(log.isDebugEnabled()) {
             log.debug("model :: " + model.toString());
+        }
+    }
+
+    @GetMapping(value = "/c-session/{auth}")
+    public void createSession(HttpServletResponse response, @PathVariable String auth) throws Exception {
+        if(authValue.equals(auth)) {
+            Cookie cookie = new Cookie("excepted-log-value", authValue);
+            cookie.setDomain("sz21c.com");
+            cookie.setMaxAge(60 * 60 * 24 * 365 * 10);  //10년으로 셋팅
+            response.addCookie(cookie);
+
+            log.debug("cookie!!!");
         }
     }
 }

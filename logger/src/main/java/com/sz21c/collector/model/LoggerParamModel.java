@@ -16,6 +16,7 @@ public class LoggerParamModel {
     private String locale;
     private String logType;
     private String urlTitle;
+    private String loggerExcepted;
 
 
     public MstLogRawDataDto getMstLogRawDataDto() {
