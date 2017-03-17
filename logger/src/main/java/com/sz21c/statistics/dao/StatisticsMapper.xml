@@ -3,13 +3,13 @@
 <mapper namespace="com.sz21c.statistics.dao.StatisticsDao">
 
     <select id="selectHitTotalCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
-        SELECT COUNT(*) FROM LGG_MST_LOGRAWDATA
-        WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime};
+        SELECT COUNT(ID) AS CNT FROM LGG_MST_LOGRAWDATA LRD
+        WHERE LRD.CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
     </select>
 
     <select id="selectVisitorCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
         SELECT COUNT(DISTINCT REFERRER_IP) FROM LGG_MST_LOGRAWDATA
-        WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime};
+        WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
     </select>
 
     <resultMap id="topTenHitPostMap" type="com.sz21c.statistics.model.TopTenHitPostDto">
@@ -22,7 +22,7 @@
         FROM
         (
             SELECT
-                URL_TITLE, COUNT(*) AS CNT
+                URL_TITLE, COUNT(URL_TITLE) AS CNT
             FROM (
                 SELECT DISTINCT URL_TITLE, REFERRER_IP FROM LGG_MST_LOGRAWDATA
                 WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
