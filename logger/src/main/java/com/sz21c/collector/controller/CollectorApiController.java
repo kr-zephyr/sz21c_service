@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
 @Slf4j
 @RestController
 public class CollectorApiController {
@@ -23,7 +20,7 @@ public class CollectorApiController {
     String authValue;
 
     @Autowired
-    CollectorService collectorService;
+    private CollectorService collectorService;
 
     @PostMapping(value = "/logger/put", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void putLog(
@@ -48,39 +45,6 @@ public class CollectorApiController {
 
         if(!authValue.equals(model.getLoggerExcepted())) {
             collectorService.addLog(model);
-        }
-    }
-
-    @PostMapping(value = "/logger/put/test", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void putLogTest(
-        HttpServletRequest request, @RequestBody LoggerParamModel model)
-        throws Exception {
-        model.setLocale(request.getLocale().toString());
-        model.setLogType(LogTypeEnum.ONLOAD.toString());
-        model.setUrl(request.getHeader("referer"));
-        model.setUserAgent(request.getHeader("User-Agent"));
-
-        javax.servlet.http.HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String ip = req.getHeader("X-FORWARDED-FOR");
-        if (ip == null)
-            ip = req.getRemoteAddr();
-
-        model.setClientIp(ip);
-
-        if(log.isDebugEnabled()) {
-            log.debug("model :: " + model.toString());
-        }
-    }
-
-    @GetMapping(value = "/{auth}")
-    public void createSession(HttpServletResponse response, @PathVariable String auth) throws Exception {
-        if(authValue.equals(auth.replace("c-session-", ""))) {
-            Cookie cookie = new Cookie("excepted-log-value", authValue);
-            cookie.setDomain("sz21c.com");
-            cookie.setMaxAge(60 * 60 * 24 * 365 * 10);  //10년으로 셋팅
-            response.addCookie(cookie);
-
-            log.info("set cookie!!!");
         }
     }
 }
