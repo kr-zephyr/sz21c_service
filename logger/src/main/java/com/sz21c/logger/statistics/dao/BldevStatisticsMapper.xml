@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sz21c.logger.statistics.dao.BldevStatisticsDao">
+    <resultMap id="bldevVisitGooglebotCntMap" type="com.sz21c.logger.statistics.model.BldevVisitGooglebotCntDto">
+        <result column="URL_TITLE" property="urlTitle" javaType="String"/>
+        <result column="CNT" property="count" javaType="Integer"/>
+        <result column="LAST_VISIT_DATE" property="lastVisitDate" javaType="Date"/>
+    </resultMap>
+    <select id="selectBldevVisitGooglebotCnt" resultMap="bldevVisitGooglebotCntMap">
+        SELECT
+        URL_TITLE, COUNT(URL_TITLE) AS CNT, MAX(CREATE_TIME) AS LAST_VISIT_DATE
+        FROM
+        LGG_MST_LOGRAWDATA
+        WHERE SITE_TYPE = 'BLDEV'
+        AND USER_AGENT LIKE '%Googlebot%'
+        GROUP BY URL_TITLE
+        ORDER BY COUNT(URL_TITLE) DESC
+    </select>
+</mapper>

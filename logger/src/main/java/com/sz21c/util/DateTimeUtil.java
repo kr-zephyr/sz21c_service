@@ -1,5 +1,6 @@
 package com.sz21c.util;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -25,5 +26,9 @@ public class DateTimeUtil {
 
     public static Date getDateForMidnightYesterday() {
         return Date.from(getMidnightYesterday().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    public static Date getCurrent() {
+        return Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 }
