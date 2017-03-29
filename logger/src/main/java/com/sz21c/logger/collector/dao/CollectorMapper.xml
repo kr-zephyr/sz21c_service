@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sz21c.logger.collector.dao.CollectorDao">
+
+    <insert id="insertLogRawData" parameterType="com.sz21c.logger.collector.model.MstLogRawDataDto">
+        INSERT INTO LGG_MST_LOGRAWDATA(SITE_TYPE, TYPE, URL, URL_TITLE, REFERRER_URL, REFERRER_IP, LOCALE, USER_AGENT)
+        VALUES (#{siteType}, #{type}, #{url}, #{urlTitle}, #{referrerUrl}, #{referrerIp}, #{locale}, #{userAgent})
+    </insert>
+</mapper>
