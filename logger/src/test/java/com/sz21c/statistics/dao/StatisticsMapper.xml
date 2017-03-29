@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sz21c.statistics.dao.StatisticsDao">
+
+    <select id="selectHitTotalCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
+        SELECT COUNT(ID) AS CNT FROM LGG_MST_LOGRAWDATA LRD
+        WHERE LRD.CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
+    </select>
+
+    <select id="selectVisitorCount" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultType="Integer">
+        SELECT COUNT(DISTINCT REFERRER_IP) FROM LGG_MST_LOGRAWDATA
+        WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
+    </select>
+
+    <resultMap id="topTenHitPostMap" type="com.sz21c.statistics.model.TopTenHitPostDto">
+        <result column="URL_TITLE" property="urlTitle"/>
+        <result column="CNT" property="count"/>
+    </resultMap>
+    <select id="selectTopTenHitPost" parameterType="com.sz21c.statistics.model.StatisticsSearchDto" resultMap="topTenHitPostMap">
+        SELECT
+            A.URL_TITLE, A.CNT
+        FROM
+        (
+            SELECT
+                URL_TITLE, COUNT(URL_TITLE) AS CNT
+            FROM (
+                SELECT DISTINCT URL_TITLE, REFERRER_IP FROM LGG_MST_LOGRAWDATA
+                WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
+            ) A
+            GROUP BY URL_TITLE
+        ) A
+        ORDER BY A.CNT DESC
+        LIMIT 10
+    </select>
+</mapper>
