@@ -14,6 +14,6 @@
         WHERE SITE_TYPE = 'BLDEV'
         AND USER_AGENT LIKE '%Googlebot%'
         GROUP BY URL_TITLE
-        ORDER BY COUNT(URL_TITLE) DESC
+        ORDER BY MAX(CREATE_TIME) DESC
     </select>
 </mapper>
