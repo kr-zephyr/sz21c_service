@@ -5,11 +5,13 @@
     <select id="selectHitTotalCount" parameterType="com.sz21c.logger.statistics.model.StatisticsSearchDto" resultType="Integer">
         SELECT COUNT(ID) AS CNT FROM LGG_MST_LOGRAWDATA LRD
         WHERE LRD.CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
+        AND USER_AGENT NOT LIKE '%bot%'
     </select>
 
     <select id="selectVisitorCount" parameterType="com.sz21c.logger.statistics.model.StatisticsSearchDto" resultType="Integer">
         SELECT COUNT(DISTINCT REFERRER_IP) FROM LGG_MST_LOGRAWDATA
         WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
+        AND USER_AGENT NOT LIKE '%bot%'
     </select>
 
     <resultMap id="topTenHitPostMap" type="com.sz21c.logger.statistics.model.TopTenHitPostDto">
@@ -27,6 +29,7 @@
             FROM (
                 SELECT DISTINCT URL_TITLE, REFERRER_IP, SITE_TYPE FROM LGG_MST_LOGRAWDATA
                 WHERE CREATE_TIME BETWEEN #{sDateTime} AND #{eDateTime}
+                AND USER_AGENT NOT LIKE '%bot%'
             ) A
             GROUP BY URL_TITLE
         ) A
