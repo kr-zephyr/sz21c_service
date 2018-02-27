@@ -10,6 +10,7 @@ web/vendor/* linguist-vendored
 # The above will handle all files NOT found below
 #
 # These files are text and should be normalized (Convert crlf => lf)
+*.adoc
 *.css           text
 *.df            text
 *.htm           text
@@ -20,6 +21,7 @@ web/vendor/* linguist-vendored
 *.jsp           text
 *.jspf          text
 *.jspx          text
+*.md
 *.properties    text
 *.sh            text
 *.tld           text
