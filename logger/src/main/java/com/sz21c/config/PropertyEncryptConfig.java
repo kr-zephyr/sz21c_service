@@ -8,10 +8,12 @@ import org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 
 @Slf4j
 @Configuration
+@Profile("real")
 public class PropertyEncryptConfig {
 
     @Bean
