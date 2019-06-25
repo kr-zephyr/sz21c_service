@@ -41,7 +41,7 @@ public class Sz21cAdminApplication extends WebSecurityConfigurerAdapter {
 		http
 				.antMatcher("/**")
 				.authorizeRequests()
-				.antMatchers("/", "/login**", "/webjars/**", "/error**")
+				.antMatchers("/", "/login**", "/webjars/**", "/error**", "/logout")
 				.permitAll()
 				.anyRequest()
 				.authenticated()
