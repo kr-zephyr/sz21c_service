@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false"
+		 monitoring="autodetect" dynamicConfig="false">
+	<cache name="manufacture"
+		   eternal="false"
+		   overflowToDisk="false"
+		   timeToLiveSeconds="3600"
+		   timeToIdleSeconds="3600"
+		   maxElementsInMemory="100"
+		   memoryStoreEvictionPolicy="LRU">
+	</cache>
+	<defaultCache
+			eternal="false"
+			timeToLiveSeconds="60"
+			timeToIdleSeconds="60"
+			overflowToDisk="false"
+			maxElementsInMemory="100"
+			memoryStoreEvictionPolicy="LRU"/>
+</ehcache>
