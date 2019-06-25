@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sz21c</groupId>
-	<artifactId>boot-example</artifactId>
+	<artifactId>admin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>boot-example</name>
-	<description>Demo project for Spring Boot</description>
+	<name>sz21c service admin</name>
+	<description>sz21c 서비스의 admin</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -35,7 +35,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+			<version>2.0.0.RELEASE</version>
+		</dependency>
+		
+		
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -81,6 +91,11 @@
 					<artifactId>ehcache-core</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>2.3.4.RELEASE</version>
 		</dependency>
 	
 	</dependencies>
