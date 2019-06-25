@@ -20,14 +20,15 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.filter.CompositeFilter;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.Filter;
-import java.util.ArrayList;
-import java.util.List;
+import java.security.Principal;
 
 @SpringBootApplication
 @EnableOAuth2Client
+@RestController
 @EnableCaching
 @EntityScan(basePackages = "com.sz21c.admin.domain")
 public class Sz21cAdminApplication extends WebSecurityConfigurerAdapter {
@@ -50,20 +51,14 @@ public class Sz21cAdminApplication extends WebSecurityConfigurerAdapter {
 	}
 	
 	private Filter ssoFilter() {
-		CompositeFilter filter = new CompositeFilter();
-		List<Filter> filters = new ArrayList<>();
-		
 		OAuth2ClientAuthenticationProcessingFilter githubFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/github");
 		OAuth2RestTemplate githubTemplate = new OAuth2RestTemplate(github(), oAuth2ClientContext);
 		githubFilter.setRestTemplate(githubTemplate);
 		UserInfoTokenServices tokenServices = new UserInfoTokenServices(githubResource().getUserInfoUri(), github().getClientId());
 		tokenServices.setRestTemplate(githubTemplate);
 		githubFilter.setTokenServices(tokenServices);
-		filters.add(githubFilter);
 		
-		filter.setFilters(filters);
-		
-		return filter;
+		return githubFilter;
 	}
 	
 	@Bean
@@ -85,6 +80,11 @@ public class Sz21cAdminApplication extends WebSecurityConfigurerAdapter {
 		registration.setOrder(-100);
 		
 		return registration;
+	}
+	
+	@RequestMapping("/user")
+	public Principal user(Principal principal) {
+		return principal;
 	}
 
 	public static void main(String[] args) {
