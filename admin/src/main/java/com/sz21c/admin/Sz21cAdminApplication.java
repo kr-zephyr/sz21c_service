@@ -1,4 +1,4 @@
-package com.sz21c.bootexample;
+package com.sz21c.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -29,8 +29,8 @@ import java.util.List;
 @SpringBootApplication
 @EnableOAuth2Client
 @EnableCaching
-@EntityScan(basePackages = "com.sz21c.bootexample.domain")
-public class BootExampleApplication extends WebSecurityConfigurerAdapter {
+@EntityScan(basePackages = "com.sz21c.admin.domain")
+public class Sz21cAdminApplication extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	OAuth2ClientContext oAuth2ClientContext;
@@ -88,7 +88,7 @@ public class BootExampleApplication extends WebSecurityConfigurerAdapter {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(BootExampleApplication.class, args);
+		SpringApplication.run(Sz21cAdminApplication.class, args);
 	}
 
 }

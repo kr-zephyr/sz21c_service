@@ -1,4 +1,4 @@
-package com.sz21c.bootexample.domain;
+package com.sz21c.admin.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

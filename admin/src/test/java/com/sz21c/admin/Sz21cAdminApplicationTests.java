@@ -1,4 +1,4 @@
-package com.sz21c.bootexample;
+package com.sz21c.admin;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BootExampleApplicationTests {
+public class Sz21cAdminApplicationTests {
 
 	@Test
 	public void contextLoads() {
