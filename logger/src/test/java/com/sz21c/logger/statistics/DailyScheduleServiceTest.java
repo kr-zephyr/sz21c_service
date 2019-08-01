@@ -10,14 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @Slf4j
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {LoggerApplication.class})
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = {LoggerApplication.class})
 public class DailyScheduleServiceTest {
 
     @Autowired
     private DailyScheduleService dailyScheduleService;
 
-    @Test
+//    @Test
     public void test_getDailyHitTotalCount() throws Exception {
         int totCnt = dailyScheduleService.getDailyHitTotalCount();
         log.debug("totCnt :: " + totCnt);
